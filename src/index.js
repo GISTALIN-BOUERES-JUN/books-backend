@@ -51,15 +51,30 @@ app.get("/books/:ISBN", (request, response)=>{
 })
 
 app.put("/books", (request, response)=>{
+
+    const { ISBN } = request.headers;
+
+    const book = books.find( book => book.ISBN === ISBN);
+
+    if(!book) {
+        return response.status(400).json({ error: "Book not found"});
+    };
+
     const { name } = request.body;
-    const { book } = request;
 
     book.name = name;
     return response.status(201).send();
 });
 
 app.delete("/books", (request, response)=>{
-    const { book } = request;
+
+    const { ISBN } = request.headers;
+
+    const book = books.find( book => book.ISBN === ISBN);
+
+    if(!book) {
+        return response.status(400).json({ error: "Book not found"});
+    }
 
     //splice
     books.splice(book, 1);
