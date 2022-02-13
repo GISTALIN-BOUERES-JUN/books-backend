@@ -12,7 +12,21 @@ app.use(express.json());
  * id - uuid
  */
 
-const books = [];
+const books = [{
+    name: "Harry Potter and the Order of the Phoenix",
+    author: "J. K. Rowling",
+    year: "1994",
+    ISBN: "222",
+    id: uuidv4()
+},{
+
+    name: "Lord of the Rings",
+    author: "J. R. R. Tolkien",
+    year: "1923",
+    ISBN: "333",
+    id: uuidv4()
+
+}];
 
 app.post("/books", (request, response)=>{
     const {name, author, ISBN, year} = request.body;
@@ -34,6 +48,23 @@ app.get("/books/:ISBN", (request, response)=>{
 
     return response.json(book);
 
+})
+
+app.put("/books", (request, response)=>{
+    const { name } = request.body;
+    const { book } = request;
+
+    book.name = name;
+    return response.status(201).send();
+});
+
+app.delete("/books", (request, response)=>{
+    const { book } = request;
+
+    //splice
+    books.splice(book, 1);
+
+    return response.status(200).json(books);
 })
 
 app.listen(4000);
