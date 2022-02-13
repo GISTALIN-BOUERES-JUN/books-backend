@@ -30,6 +30,9 @@ app.post("/books", (request, response)=>{
 
 app.get("/books/:ISBN", (request, response)=>{
     const {ISBN} = request.params;
+    const book = books.find(book => book.ISBN === ISBN);
+
+    return response.json(book);
 
 })
 
