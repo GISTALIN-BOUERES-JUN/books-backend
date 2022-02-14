@@ -76,12 +76,15 @@ app.delete("/books/:ISBN", (request, response)=>{
     const {ISBN} = request.params;
     const book = books.find( book => book.ISBN === ISBN);
 
+
     if(!book) {
         return response.status(400).json({ error: "Book not found"});
     }
 
+    idx = books.indexOf(book);
+
     //splice
-    books.splice(book, 1);
+    books.splice(idx, 1);
 
     return response.status(200).json(books);
 })
