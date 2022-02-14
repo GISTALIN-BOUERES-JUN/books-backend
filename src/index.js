@@ -38,7 +38,7 @@ app.post("/books", (request, response)=>{
         year,
     });
 
-    return response.status(201).send();
+    return response.json(books);
 
 })
 
@@ -47,6 +47,11 @@ app.get("/books/:ISBN", (request, response)=>{
     const book = books.find(book => book.ISBN === ISBN);
 
     return response.json(book);
+
+})
+
+app.get("/books/", (request, response)=>{
+    return response.json(books);
 
 })
 
@@ -66,10 +71,9 @@ app.put("/books", (request, response)=>{
     return response.status(201).send();
 });
 
-app.delete("/books", (request, response)=>{
+app.delete("/books/:ISBN", (request, response)=>{
 
-    const { ISBN } = request.headers;
-
+    const {ISBN} = request.params;
     const book = books.find( book => book.ISBN === ISBN);
 
     if(!book) {
