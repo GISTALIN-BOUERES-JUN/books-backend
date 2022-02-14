@@ -30,6 +30,8 @@ const books = [{
 
 app.post("/books", (request, response)=>{
     const {name, author, ISBN, year} = request.body;
+
+
     books.push({
         name,
         author,
@@ -55,9 +57,9 @@ app.get("/books/", (request, response)=>{
 
 })
 
-app.put("/books", (request, response)=>{
+app.put("/books/:ISBN", (request, response)=>{
 
-    const { ISBN } = request.headers;
+    const {ISBN} = request.params;
 
     const book = books.find( book => book.ISBN === ISBN);
 
@@ -65,10 +67,14 @@ app.put("/books", (request, response)=>{
         return response.status(400).json({ error: "Book not found"});
     };
 
-    const { name } = request.body;
+    const { name, author, year } = request.body;
 
     book.name = name;
-    return response.status(201).send();
+    book.author = author;
+    book.year = year;
+    book.ISBN = ISBN;
+
+    return response.status(200).json(books);
 });
 
 app.delete("/books/:ISBN", (request, response)=>{
